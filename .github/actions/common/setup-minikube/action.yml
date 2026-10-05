@@ -50,3 +50,8 @@ runs:
         "kubernetes version": "v1.37.0"
         "github token": ${{ inputs.githubToken }}
         driver: docker
+        # debug/4168: keep minikube v1.39.0's default containerd runtime, but use
+        # the bundled bridge CNI instead of kindnet so NO CNI image must be pulled
+        # at cluster start (kindnet's image is on Docker Hub, which the node can't
+        # resolve). A/B variant vs debug/4168-runtime-containerd. REVERT before merging.
+        "start args": "--cni=bridge"
